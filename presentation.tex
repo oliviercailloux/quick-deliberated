@@ -1,0 +1,150 @@
+\RequirePackage[l2tabu, orthodox]{nag}
+\RequirePackage{silence}
+\documentclass[french,english]{beamer}
+\input{preamble/packages}
+\input{preamble/math_basics}
+\input{preamble/math_mine}
+\input{preamble/redac}
+\input{preamble/draw}
+\usepackage[nolist,smaller,printonlyused]{acronym}
+\input{preamble/acronyms}
+
+\setbeamertemplate{headline}[singleline]
+%\setbeamertemplate{footline}[authortitle]
+
+\title{Defining and capturing deliberated preferences}
+\subject{Preference modeling}
+\keywords{MCDA, social choice, decision under uncertainty}
+\author{\emph{Olivier Cailloux}}
+\institute[LAMSADE]{LAMSADE, Université Paris-Dauphine}
+\date{\formatdate{18}{12}{2018}}
+
+\begin{document}
+\begin{frame}[plain]
+	\tikz[remember picture,overlay]{
+		\path (current page.south west) node[anchor=south west, inner sep=0] {
+			\includegraphics[height=1cm]{LAMSADE95.jpg}
+		};
+		\path (current page.south) ++ (0, 1mm) node[anchor=south, inner sep=0] {
+			\includegraphics[height=9mm]{Dauphine.jpg}
+		};
+		\path (current page.south east) node[anchor=south east, inner sep=0] {
+			\includegraphics[height=1cm]{PSL.png}
+		};
+		\path (current page.south) ++ (0, 4em) node[anchor=south, inner sep=0] {
+			\scriptsize\color{blue}\url{https://github.com/oliviercailloux/quick-deliberated}
+		};
+%thanks to https://stackoverflow.com/questions/2423777/is-it-possible-to-create-a-remote-repo-on-github-from-the-cli-without-opening-br/13366414#13366414
+%REPO=…
+%curl -u 'oliviercailloux' https://api.github.com/user/repos -d "{\"name\":\"${REPO}\"}"
+%git remote add origin git@github.com:oliviercailloux/${REPO}.git
+%git push --set-upstream origin master
+	}
+	\titlepage
+\end{frame}
+\addtocounter{framenumber}{-1}
+
+\section{What?}
+\begin{frame}
+	\frametitle{What: Considered decisions}
+	
+	Help \ac{DM} take considered decisions
+	\begin{itemize}
+		\item Which site for a nuclear plant?
+		\item Which smartphone should I buy?
+		\item Which voting rule should we implement?
+	\end{itemize}
+	My main interest is in analyzing such situations abstractly and generally
+\end{frame}
+
+\section{Perspective}
+\begin{frame}
+	\frametitle{Perspective: Deliberated preferences}
+	\begin{block}{Intuitive preference}
+		\begin{itemize}
+			\item Preference as an “immediate sensation” \citep{von_neumann_theory_1944}
+			\item $i$ knows what’s best by introspection
+			\item Recommend a movie: $i$ knows how good it feels
+			\item “There is, of course, an important sense in which preferences, being entirely subjective, cannot be in error” \citep{savage_foundations_1972}
+		\end{itemize}
+	\end{block}
+	\begin{block}{Deliberated preference}
+		\begin{itemize}
+			\item … “but in a different, more subtle sense they can be.”
+			\item Change of mind after thinking about it
+			\item Relates to “slow thinking” \citep{kahneman_thinking_2013}
+		\end{itemize}
+	\end{block}
+	I want to define precisely and analyze deliberated preferences
+\end{frame}
+
+\section{How?}
+\begin{frame}
+	\frametitle{How? Axiomatic analysis and argumentation}
+	\vspace{-2pt}
+	\begin{center}
+		\begin{tikzpicture}
+			\path node[matrix of nodes, ampersand replacement=\&, inner sep=0, nodes={inner sep=.3333em}] (my matrix) {
+					\& aspect 1	\& aspect 2	\& aspect 3	\& aspect 4\\
+				$a$	\& 7	\& 10	\& 7	\& | (st 1) | −\\
+				$b$	\& 1.5	\& 5	\& 1	\& | (st 2) | −−\\
+				$c$	\& 7.5	\& 2	\& 5	\& | (st 3) | +\\
+				$d$	\& 2.5	\& 3	\& 3	\& | (st 4) | ++\\
+			};
+			\path (st 2.south -| my matrix.east) coordinate (start);
+			\path (start) ++ (20mm, 0) node[anchor=west] (end) {$a > b$};
+			\draw[->] (start) -- (end);
+			\path (end.west) ++(-10mm, 0.3cm) node (label) {$f$};
+		\end{tikzpicture}
+	\end{center}
+	\begin{itemize}
+		\item A family of aggregators $\mathcal{F}$
+		\item $P_1, P_2$: properties of aggregators (Pareto-Dominance, Sure thing principle, Condorcet…)
+		\item Explain to the \ac{DM}: if $P$, then $a > b$
+		\item[→] Argue: $¬(a > b)$, otherwise $¬P$
+	\end{itemize}
+	\begin{block}{Enables}
+		\begin{itemize}
+			\item Test axioms
+			\item Compare aggregators empirically
+		\end{itemize}
+	\end{block}
+\end{frame}
+
+\begin{frame}[plain]
+	\addtocounter{framenumber}{-1}
+	\begin{center}
+		\huge
+		\textit{Thank you for your attention!}
+	\end{center}
+\end{frame}
+
+\appendix
+\AtBeginSection{
+}
+
+\clearpage\pdfbookmark[2]{\refname}{\refname}
+\begin{frame}[allowframebreaks]
+	\frametitle{\refname}
+ 	\bibliography{manual}
+\end{frame}
+
+\end{document}
+
+\clearpage\pdfbookmark{License}{License}
+\begin{frame}[plain]
+	\frametitle{License}
+	This presentation, and the associated \LaTeX{} code, are published under the \href{http://opensource.org/licenses/MIT}{MIT license}. Feel free to reuse (parts of) the presentation, under condition that you cite the author.
+	
+	Credits are to be given to \href{http://www.lamsade.dauphine.fr/~ocailloux/}{Olivier Cailloux}, Université Paris-Dauphine.
+\end{frame}
+\addtocounter{framenumber}{-1}
+\end{document}
+
+\begin{frame}
+	\frametitle{\subsecname}
+	\begin{itemize}
+		\item 
+	\end{itemize}
+\end{frame}
+
